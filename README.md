@@ -1,5 +1,4 @@
-# IMPORTANT
-# Due to time limitations, the README.md file provides an AI generated summary of the project. For detailed instructions and methodology please check back later or refer to the https://docs.exchronai.earth
+## IMPORTANT: Due to time limitations, the README.md file provides an AI generated summary of the project. For detailed instructions and methodology please check back later or refer to the https://docs.exchronai.earth
 
 # Exoplanet Classification with Dual-Input Deep Neural Network
 
@@ -180,10 +179,6 @@ Explore the project through interactive notebooks:
 3. Make your changes
 4. Add tests if applicable
 5. Submit a pull request
-
-## 📄 License
-
-This project is licensed under the MIT License.
 
 ## 🙏 Acknowledgments
 
