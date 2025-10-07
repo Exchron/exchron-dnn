@@ -1,0 +1,56 @@
+model:
+  type: DNN
+  input_shape: [None, 200]  # Adjust based on the feature size
+  layers:
+    - type: Dense
+      units: 128
+      activation: relu
+      dropout_rate: 0.2
+    - type: Dense
+      units: 64
+      activation: relu
+      dropout_rate: 0.2
+    - type: Dense
+      units: 32
+      activation: relu
+      dropout_rate: 0.2
+    - type: Dense
+      units: 16
+      activation: relu
+      dropout_rate: 0.2
+    - type: Dense
+      units: 1  # Output layer for binary classification
+      activation: sigmoid
+
+training:
+  batch_size: 32
+  epochs: 100
+  validation_split: 0.2
+  optimizer: adam
+  loss_function: binary_crossentropy
+  metrics:
+    - accuracy
+    - precision
+    - recall
+    - f1_score
+
+explainability:
+  method: SHAP
+  background_data: "lightkurve_data"  # Path to background data for SHAP
+
+feature_selection:
+  selected_features: "random-2000/KOI Selected 2000 Signals.csv"  # Path to selected features file
+
+callbacks:
+  early_stopping:
+    monitor: val_loss
+    patience: 10
+    restore_best_weights: true
+  model_checkpoint:
+    filepath: "models/best_model.h5"
+    monitor: val_loss
+    save_best_only: true
+
+logging:
+  log_dir: "logs/"
+  log_level: INFO

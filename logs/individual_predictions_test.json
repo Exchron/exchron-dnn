@@ -1,0 +1,42 @@
+[
+  {
+    "sample_idx": 1,
+    "kepid": 11724091,
+    "candidate_probability": 0.001408003969117999,
+    "non_candidate_probability": 0.998591959476471,
+    "actual_label": "FALSE POSITIVE",
+    "predicted_class": "FALSE POSITIVE"
+  },
+  {
+    "sample_idx": 2,
+    "kepid": 7743464,
+    "candidate_probability": 0.000641017104499042,
+    "non_candidate_probability": 0.9993589520454407,
+    "actual_label": "FALSE POSITIVE",
+    "predicted_class": "FALSE POSITIVE"
+  },
+  {
+    "sample_idx": 3,
+    "kepid": 9007918,
+    "candidate_probability": 0.0026653874665498734,
+    "non_candidate_probability": 0.9973345994949341,
+    "actual_label": "FALSE POSITIVE",
+    "predicted_class": "FALSE POSITIVE"
+  },
+  {
+    "sample_idx": 4,
+    "kepid": 3644542,
+    "candidate_probability": 0.0006490184459835291,
+    "non_candidate_probability": 0.9993509650230408,
+    "actual_label": "FALSE POSITIVE",
+    "predicted_class": "FALSE POSITIVE"
+  },
+  {
+    "sample_idx": 5,
+    "kepid": 8892303,
+    "candidate_probability": 0.9998729228973389,
+    "non_candidate_probability": 0.0001270941720576957,
+    "actual_label": "CANDIDATE",
+    "predicted_class": "CANDIDATE"
+  }
+]

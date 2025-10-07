@@ -1,0 +1,56 @@
+=== EXOPLANET CLASSIFICATION MODEL EVALUATION ===
+Modified Model with Softmax Output (Two-Class Probabilities)
+
+Model Configuration:
+  Time series length: 3000
+  Number of features: 12
+  Training samples: 783
+  Validation samples: 242
+  Test samples: 182
+
+Performance Metrics:
+  Test Accuracy: 0.9725
+  Test Precision: 0.9875
+  Test Recall: 0.9518
+  AUC Score: 0.9968
+
+Classification Report:
+                precision    recall  f1-score   support
+
+False Positive       0.96      0.99      0.98        99
+     Candidate       0.99      0.95      0.97        83
+
+      accuracy                           0.97       182
+     macro avg       0.97      0.97      0.97       182
+  weighted avg       0.97      0.97      0.97       182
+
+
+Confusion Matrix:
+[[98  1]
+ [ 4 79]]
+
+Feature Names Used:
+  1. koi_period
+  2. koi_duration
+  3. koi_depth
+  4. koi_model_snr
+  5. koi_impact
+  6. koi_sma
+  7. koi_incl
+  8. koi_steff
+  9. koi_slogg
+  10. koi_srad
+  11. koi_smass
+  12. koi_kepmag
+
+
+New Output Format:
+  The model now outputs probabilities for both classes:
+  - candidate_probability: Probability that the signal is a true exoplanet candidate
+  - non_candidate_probability: Probability that the signal is a false positive
+  - Both probabilities sum to 1.0
+
+Example output format:
+  "candidate_probability": 0.7389113903045654,
+  "non_candidate_probability": 0.26108860969543457
+

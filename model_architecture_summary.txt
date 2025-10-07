@@ -1,0 +1,166 @@
+MODEL ARCHITECTURE SUMMARY - UPDATED
+==================================================
+Last Updated: October 7, 2025
+Model Type: Dual-Input Exoplanet Classifier with Softmax Output
+
+MODIFICATIONS MADE:
+- Changed output layer from Dense(1, sigmoid) to Dense(2, softmax)
+- Updated loss function to sparse_categorical_crossentropy
+- Now outputs probabilities for both candidate and non-candidate classes
+- Maintained same architecture except for final output layer
+
+Model: "dual_input_exoplanet_classifier"
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Layer (type)                  ┃ Output Shape              ┃         Param # ┃ Connected to               ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ time_series_input             │ (None, 3000)              │               0 │ -                          │
+│ (InputLayer)                  │                           │                 │                            │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ reshape (Reshape)             │ (None, 3000, 1)           │               0 │ time_series_input[0][0]    │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ conv1d (Conv1D)               │ (None, 3000, 32)          │             256 │ reshape[0][0]              │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ batch_normalization           │ (None, 3000, 32)          │             128 │ conv1d[0][0]               │
+│ (BatchNormalization)          │                           │                 │                            │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ max_pooling1d (MaxPooling1D)  │ (None, 750, 32)           │               0 │ batch_normalization[0][0]  │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ dropout (Dropout)             │ (None, 750, 32)           │               0 │ max_pooling1d[0][0]        │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ conv1d_1 (Conv1D)             │ (None, 750, 64)           │          10,304 │ dropout[0][0]              │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ batch_normalization_1         │ (None, 750, 64)           │             256 │ conv1d_1[0][0]             │
+│ (BatchNormalization)          │                           │                 │                            │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ max_pooling1d_1               │ (None, 187, 64)           │               0 │ batch_normalization_1[0][… │
+│ (MaxPooling1D)                │                           │                 │                            │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ dropout_1 (Dropout)           │ (None, 187, 64)           │               0 │ max_pooling1d_1[0][0]      │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ conv1d_2 (Conv1D)             │ (None, 187, 128)          │          24,704 │ dropout_1[0][0]            │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ batch_normalization_2         │ (None, 187, 128)          │             512 │ conv1d_2[0][0]             │
+│ (BatchNormalization)          │                           │                 │                            │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ feature_input (InputLayer)    │ (None, 12)                │               0 │ -                          │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ max_pooling1d_2               │ (None, 93, 128)           │               0 │ batch_normalization_2[0][… │
+│ (MaxPooling1D)                │                           │                 │                            │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ dense_2 (Dense)               │ (None, 64)                │             832 │ feature_input[0][0]        │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ dropout_2 (Dropout)           │ (None, 93, 128)           │               0 │ max_pooling1d_2[0][0]      │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ batch_normalization_3         │ (None, 64)                │             256 │ dense_2[0][0]              │
+│ (BatchNormalization)          │                           │                 │                            │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ flatten (Flatten)             │ (None, 11904)             │               0 │ dropout_2[0][0]            │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ dropout_4 (Dropout)           │ (None, 64)                │               0 │ batch_normalization_3[0][… │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ dense (Dense)                 │ (None, 256)               │       3,047,680 │ flatten[0][0]              │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ dense_3 (Dense)               │ (None, 32)                │           2,080 │ dropout_4[0][0]            │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ dropout_3 (Dropout)           │ (None, 256)               │               0 │ dense[0][0]                │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ batch_normalization_4         │ (None, 32)                │             128 │ dense_3[0][0]              │
+│ (BatchNormalization)          │                           │                 │                            │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ dense_1 (Dense)               │ (None, 128)               │          32,896 │ dropout_3[0][0]            │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ dropout_5 (Dropout)           │ (None, 32)                │               0 │ batch_normalization_4[0][… │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ concatenate (Concatenate)     │ (None, 160)               │               0 │ dense_1[0][0],             │
+│                               │                           │                 │ dropout_5[0][0]            │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ dense_4 (Dense)               │ (None, 128)               │          20,608 │ concatenate[0][0]          │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ batch_normalization_5         │ (None, 128)               │             512 │ dense_4[0][0]              │
+│ (BatchNormalization)          │                           │                 │                            │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ dropout_6 (Dropout)           │ (None, 128)               │               0 │ batch_normalization_5[0][… │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ dense_5 (Dense)               │ (None, 64)                │           8,256 │ dropout_6[0][0]            │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ batch_normalization_6         │ (None, 64)                │             256 │ dense_5[0][0]              │
+│ (BatchNormalization)          │                           │                 │                            │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ dropout_7 (Dropout)           │ (None, 64)                │               0 │ batch_normalization_6[0][… │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ dense_6 (Dense)               │ (None, 32)                │           2,080 │ dropout_7[0][0]            │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ batch_normalization_7         │ (None, 32)                │             128 │ dense_6[0][0]              │
+│ (BatchNormalization)          │                           │                 │                            │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ dropout_8 (Dropout)           │ (None, 32)                │               0 │ batch_normalization_7[0][… │
+├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
+│ output (Dense)                │ (None, 2)                 │              66 │ dropout_8[0][0]            │
+└───────────────────────────────┴───────────────────────────┴─────────────────┴────────────────────────────┘
+ Total params: 3,151,938 (12.02 MB)
+ Trainable params: 3,150,850 (12.02 MB)
+ Non-trainable params: 1,088 (4.25 KB)
+
+==================================================
+ARCHITECTURE DETAILS:
+
+Total Parameters: 3,151,938
+Trainable Parameters: 3,150,850
+Non-trainable Parameters: 1,088
+
+INPUT SPECIFICATIONS:
+- Time Series Input: (None, 3000) - Light curve flux measurements
+- Feature Input: (None, 12) - Stellar and planetary parameters
+  Features: koi_period, koi_duration, koi_depth, koi_model_snr, koi_impact,
+           koi_sma, koi_incl, koi_steff, koi_slogg, koi_srad, koi_smass, koi_kepmag
+
+OUTPUT SPECIFICATIONS:
+- Output Shape: (None, 2) - Two-class probability distribution
+- Activation: softmax - Ensures probabilities sum to 1.0
+- Class 0: Non-candidate (False Positive) probability
+- Class 1: Candidate (Exoplanet) probability
+
+TRAINING CONFIGURATION:
+- Loss Function: sparse_categorical_crossentropy
+- Optimizer: Adam (learning_rate=0.001)
+- Metrics: accuracy
+- Batch Size: 32
+- Early Stopping: Enabled (patience=15)
+- Learning Rate Reduction: Enabled (factor=0.5, patience=10)
+
+MODEL PERFORMANCE (Test Set):
+- Test Accuracy: 97.25%
+- Test Precision: 96.43%
+- Test Recall: 97.59%
+- AUC Score: 99.65%
+- Training Samples: 783
+- Validation Samples: 242
+- Test Samples: 182
+
+DUAL-INPUT ARCHITECTURE:
+1. TIME SERIES BRANCH:
+   - Conv1D layers with batch normalization and dropout
+   - Multi-scale feature extraction (filters: 32→64→128)
+   - Max pooling for dimensionality reduction
+   - Flattened output: 11,904 features
+
+2. FEATURE BRANCH:
+   - Dense layers with batch normalization and dropout
+   - Feature processing (64→32 units)
+   - Handles tabulated stellar/planetary parameters
+
+3. FUSION LAYER:
+   - Concatenates time series and feature representations
+   - Combined dense layers (128→64→32 units)
+   - Batch normalization and dropout for regularization
+
+4. OUTPUT LAYER:
+   - Dense(2, activation='softmax')
+   - Outputs probability distribution over two classes
+   - Enables explicit probability for both outcomes
+
+EXAMPLE OUTPUT FORMAT:
+{
+  "candidate_probability": 0.7389113903045654,
+  "non_candidate_probability": 0.26108860969543457
+}

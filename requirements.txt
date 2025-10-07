@@ -1,0 +1,14 @@
+numpy
+pandas
+lightkurve
+tensorflow
+keras
+scikit-learn
+matplotlib
+seaborn
+tqdm
+shap
+jupyter
+notebook
+pydot
+graphviz
